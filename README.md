@@ -36,16 +36,17 @@ npm run preview
 
 Produkční soubory vzniknou v adresáři `dist/`. Build je prosté kopírování statických souborů, takže hra nepotřebuje serverovou část.
 
-## Nasazení na Cloudflare Pages
+## Nasazení na Cloudflare Workers
 
-Po propojení GitHub repozitáře vytvořte v Cloudflare Pages nový projekt a nastavte:
+Repozitář je připravený pro Workers Builds se statickými assety. Po propojení GitHub repozitáře nastavte:
 
 - Framework preset: `None`
 - Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
 - Build output directory: `dist`
 - Root directory: ponechat prázdný
 
-Cloudflare po každém pushi do produkční větve automaticky spustí build a zveřejní novou verzi. Soubor `public/_headers` přidá základní bezpečnostní hlavičky.
+Cloudflare po každém pushi do produkční větve automaticky spustí build a nasadí obsah `dist/` na veřejnou adresu `*.workers.dev`. Konfigurace je v `wrangler.toml`; čistě statický web nepotřebuje Worker entry point. Soubor `public/_headers` přidá základní bezpečnostní hlavičky.
 
 ## Struktura
 
