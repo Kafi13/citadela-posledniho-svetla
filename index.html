@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Citadela posledního světla — filmová plošinová výprava ruinami měsíčního města."
+    />
+    <meta name="theme-color" content="#07131f" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Citadela" />
+
+    <title>Citadela posledního světla</title>
+
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#game-shell">Přeskočit k herní oblasti</a>
+
+    <main id="app" class="app">
+      <header class="app-bar" aria-label="Záhlaví hry">
+        <a class="brand" href="#title-screen" aria-label="Citadela posledního světla — hlavní nabídka">
+          <span class="brand__mark" aria-hidden="true"><span></span></span>
+          <span class="brand__copy">
+            <span class="brand__eyebrow">Kroniky měsíční brány</span>
+            <span class="brand__name">Citadela posledního světla</span>
+          </span>
+        </a>
+
+        <div class="app-bar__actions" aria-label="Rychlé volby">
+          <button
+            class="icon-button"
+            type="button"
+            data-action="mute"
+            aria-label="Ztlumit zvuk"
+            aria-pressed="false"
+          >
+            <span class="icon-button__glyph" aria-hidden="true">◖</span>
+            <span class="icon-button__label">Zvuk</span>
+          </button>
+          <button class="icon-button" type="button" data-action="fullscreen" aria-label="Přepnout celou obrazovku">
+            <span class="icon-button__glyph icon-button__glyph--frame" aria-hidden="true"></span>
+            <span class="icon-button__label">Celá obrazovka</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="stage" aria-labelledby="game-title">
+        <h1 id="game-title" class="sr-only">Citadela posledního světla</h1>
+
+        <div id="game-shell" class="game-shell" tabindex="-1">
+          <div class="game-shell__ambient" aria-hidden="true"></div>
+
+          <canvas
+            id="game-canvas"
+            width="1152"
+            height="704"
+            tabindex="0"
+            role="application"
+            aria-label="Herní plocha Citadely posledního světla"
+            aria-describedby="canvas-help"
+          >
+            Váš prohlížeč nepodporuje plátno potřebné pro spuštění hry.
+          </canvas>
+          <p id="canvas-help" class="sr-only">
+            Hru ovládáte šipkami nebo klávesami W, A, S, D. Útok je J, kryt K a interakce E.
+            Nabídku pozastavení otevřete klávesou Escape.
+          </p>
+
+          <section id="hud" class="hud" aria-label="Stav výpravy">
+            <div class="hud__group hud__group--left">
+              <div class="hud-card hud-card--health">
+                <span class="hud-card__label">Život</span>
+                <div
+                  id="health"
+                  class="health"
+                  role="meter"
+                  aria-label="Zdraví hrdinky"
+                  aria-valuemin="0"
+                  aria-valuemax="5"
+                  aria-valuenow="5"
+                >
+                  <span class="health__track" aria-hidden="true">
+                    <span class="health__fill"></span>
+                  </span>
+                  <span class="health__value">5 / 5</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="hud__room">
+              <span class="hud__ornament" aria-hidden="true"></span>
+              <span id="room-name">Brána soumraku</span>
+              <span class="hud__ornament hud__ornament--right" aria-hidden="true"></span>
+            </div>
+
+            <div class="hud__group hud__group--right">
+              <div class="hud-card hud-card--compact">
+                <span class="hud-card__symbol hud-card__symbol--shard" aria-hidden="true"></span>
+                <span class="hud-card__copy">
+                  <span class="hud-card__label">Střepy</span>
+                  <span id="shard-count" class="hud-card__value">0 / 7</span>
+                </span>
+              </div>
+              <div class="hud-card hud-card--compact">
+                <span class="hud-card__symbol hud-card__symbol--time" aria-hidden="true"></span>
+                <span class="hud-card__copy">
+                  <span class="hud-card__label">Čas</span>
+                  <time id="run-time" class="hud-card__value" datetime="PT0M0S">00:00</time>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section id="title-screen" class="screen screen--title" aria-labelledby="title-heading">
+            <div class="screen__vignette" aria-hidden="true"></div>
+            <div class="title-panel">
+              <div class="title-panel__sigil" aria-hidden="true">
+                <span class="title-panel__moon"></span>
+                <span class="title-panel__star"></span>
+              </div>
+              <p class="screen__eyebrow">Příběhová plošinová výprava</p>
+              <h2 id="title-heading" class="title-panel__heading">
+                <span>Citadela</span>
+                <span class="title-panel__heading-small">posledního světla</span>
+              </h2>
+              <p class="title-panel__lead">
+                Vystoupej ruinami, přelsti strážce času a vrať měsíční záři městu, které na ni
+                zapomnělo.
+              </p>
+
+              <nav class="menu" aria-label="Hlavní nabídka">
+                <button class="menu-button menu-button--primary" type="button" data-action="new">
+                  <span class="menu-button__index" aria-hidden="true">01</span>
+                  <span class="menu-button__text">
+                    <strong>Nová výprava</strong>
+                    <small>Vstoupit do citadely</small>
+                  </span>
+                  <span class="menu-button__arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="menu-button" type="button" data-action="continue">
+                  <span class="menu-button__index" aria-hidden="true">02</span>
+                  <span class="menu-button__text">
+                    <strong>Pokračovat</strong>
+                    <small>Poslední bezpečná komnata</small>
+                  </span>
+                  <span class="menu-button__arrow" aria-hidden="true">→</span>
+                </button>
+              </nav>
+
+              <div class="secondary-actions">
+                <button class="text-button" type="button" data-action="settings">
+                  <span aria-hidden="true">◇</span> Nastavení
+                </button>
+                <span class="secondary-actions__divider" aria-hidden="true"></span>
+                <button class="text-button" type="button" data-action="controls">
+                  <span aria-hidden="true">⌘</span> Ovládání
+                </button>
+              </div>
+            </div>
+
+            <p class="title-screen__hint">
+              <kbd>Enter</kbd> vybrat <span aria-hidden="true">·</span> <kbd>↑</kbd><kbd>↓</kbd>
+              pohyb v nabídce
+            </p>
+          </section>
+
+          <section
+            id="pause-screen"
+            class="screen screen--dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="pause-heading"
+            hidden
+          >
+            <div class="dialog-card dialog-card--pause">
+              <p class="screen__eyebrow">Čas se na okamžik zastavil</p>
+              <h2 id="pause-heading">Výprava pozastavena</h2>
+              <p class="dialog-card__copy">Citadela počká. Až budeš připraven, světlo znovu vykročí.</p>
+
+              <div class="dialog-actions">
+                <button class="button button--primary" type="button" data-action="resume">Pokračovat ve hře</button>
+                <button class="button" type="button" data-action="settings">Nastavení</button>
+                <button class="button" type="button" data-action="controls">Ovládání</button>
+                <button class="button button--quiet" type="button" data-action="restart">Začít komnatu znovu</button>
+                <button class="button button--quiet" type="button" data-action="menu">Hlavní nabídka</button>
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="complete-screen"
+            class="screen screen--dialog screen--complete"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="complete-heading"
+            hidden
+          >
+            <div class="complete-rays" aria-hidden="true"></div>
+            <div class="dialog-card dialog-card--complete">
+              <div class="complete-mark" aria-hidden="true"><span></span></div>
+              <p class="screen__eyebrow">Úsvit nad citadelou</p>
+              <h2 id="complete-heading">Světlo se vrátilo</h2>
+              <p class="dialog-card__copy">
+                Rozbité střepy znovu tvoří celek. Město procitá — a tvé jméno si bude pamatovat.
+              </p>
+
+              <dl class="result-grid" aria-label="Výsledky dokončené výpravy">
+                <div>
+                  <dt>Čas výpravy</dt>
+                  <dd data-result="time">—</dd>
+                </div>
+                <div>
+                  <dt>Nalezené střepy</dt>
+                  <dd data-result="shards">—</dd>
+                </div>
+                <div>
+                  <dt>Pády</dt>
+                  <dd data-result="deaths">—</dd>
+                </div>
+              </dl>
+
+              <div class="dialog-actions dialog-actions--horizontal">
+                <button class="button button--primary" type="button" data-action="replay">Hrát znovu</button>
+                <button class="button" type="button" data-action="menu">Hlavní nabídka</button>
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="settings-panel"
+            class="screen screen--dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="settings-heading"
+            hidden
+          >
+            <div class="dialog-card dialog-card--wide">
+              <header class="dialog-card__header">
+                <div>
+                  <p class="screen__eyebrow">Přizpůsobit výpravu</p>
+                  <h2 id="settings-heading">Nastavení</h2>
+                </div>
+                <button class="close-button" type="button" data-action="close" aria-label="Zavřít nastavení">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </header>
+
+              <div class="settings-list">
+                <label class="range-setting" for="master-volume">
+                  <span class="setting-copy">
+                    <strong>Hlasitost</strong>
+                    <small>Hudba, ruchy i ozvěny citadely</small>
+                  </span>
+                  <span class="range-setting__control">
+                    <input id="master-volume" type="range" min="0" max="100" step="5" value="75" />
+                    <output for="master-volume">75 %</output>
+                  </span>
+                </label>
+
+                <label class="toggle-setting" for="reduced-motion">
+                  <span class="setting-copy">
+                    <strong>Omezit pohyb</strong>
+                    <small>Ztiší otřesy kamery, záblesky a přechody</small>
+                  </span>
+                  <span class="switch">
+                    <input id="reduced-motion" type="checkbox" />
+                    <span class="switch__track" aria-hidden="true"><span></span></span>
+                  </span>
+                </label>
+
+                <label class="toggle-setting" for="slow-traps">
+                  <span class="setting-copy">
+                    <strong>Pomalejší pasti</strong>
+                    <small>Prodlouží okno pro bezpečnou reakci</small>
+                  </span>
+                  <span class="switch">
+                    <input id="slow-traps" type="checkbox" />
+                    <span class="switch__track" aria-hidden="true"><span></span></span>
+                  </span>
+                </label>
+
+                <label class="toggle-setting" for="story-mode">
+                  <span class="setting-copy">
+                    <strong>Příběhový režim</strong>
+                    <small>Hrdinka vydrží více a nepřátelé méně</small>
+                  </span>
+                  <span class="switch">
+                    <input id="story-mode" type="checkbox" />
+                    <span class="switch__track" aria-hidden="true"><span></span></span>
+                  </span>
+                </label>
+
+                <label class="toggle-setting" for="auto-grab">
+                  <span class="setting-copy">
+                    <strong>Automatické zachycení</strong>
+                    <small>Přidrží římsu, i když pustíš směrovou klávesu</small>
+                  </span>
+                  <span class="switch">
+                    <input id="auto-grab" type="checkbox" checked />
+                    <span class="switch__track" aria-hidden="true"><span></span></span>
+                  </span>
+                </label>
+              </div>
+
+              <p class="dialog-card__footnote">Změny se ukládají automaticky v tomto zařízení.</p>
+            </div>
+          </section>
+
+          <section
+            id="controls-panel"
+            class="screen screen--dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="controls-heading"
+            hidden
+          >
+            <div class="dialog-card dialog-card--wide">
+              <header class="dialog-card__header">
+                <div>
+                  <p class="screen__eyebrow">Klávesnice a dotyk</p>
+                  <h2 id="controls-heading">Ovládání</h2>
+                </div>
+                <button class="close-button" type="button" data-action="close" aria-label="Zavřít přehled ovládání">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </header>
+
+              <div class="controls-grid">
+                <div class="control-row">
+                  <span class="control-row__action">Pohyb</span>
+                  <span class="key-group"><kbd>A</kbd><kbd>D</kbd><span>nebo</span><kbd>←</kbd><kbd>→</kbd></span>
+                </div>
+                <div class="control-row">
+                  <span class="control-row__action">Skok / výstup</span>
+                  <span class="key-group"><kbd>W</kbd><span>nebo</span><kbd>↑</kbd></span>
+                </div>
+                <div class="control-row">
+                  <span class="control-row__action">Sestup / skrčení</span>
+                  <span class="key-group"><kbd>S</kbd><span>nebo</span><kbd>↓</kbd></span>
+                </div>
+                <div class="control-row">
+                  <span class="control-row__action">Útok</span>
+                  <span class="key-group"><kbd>J</kbd></span>
+                </div>
+                <div class="control-row">
+                  <span class="control-row__action">Kryt</span>
+                  <span class="key-group"><kbd>K</kbd></span>
+                </div>
+                <div class="control-row">
+                  <span class="control-row__action">Interakce</span>
+                  <span class="key-group"><kbd>E</kbd></span>
+                </div>
+                <div class="control-row">
+                  <span class="control-row__action">Pauza</span>
+                  <span class="key-group"><kbd>Esc</kbd><span>nebo</span><kbd>P</kbd></span>
+                </div>
+              </div>
+
+              <div class="controls-tip">
+                <span class="controls-tip__mark" aria-hidden="true">!</span>
+                <p><strong>Nespěchej.</strong> Dlouhý krok u okraje je bezpečnější než skok naslepo.</p>
+              </div>
+            </div>
+          </section>
+
+          <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+          <div id="interact-prompt" class="interact-prompt" role="status" aria-live="polite" hidden>
+            <kbd>E</kbd>
+            <span>Interakce</span>
+          </div>
+
+          <div id="transition" class="transition" aria-hidden="true">
+            <span class="transition__iris"></span>
+          </div>
+
+          <nav id="touch-controls" class="touch-controls" aria-label="Dotykové ovládání hry">
+            <div class="touch-pad" aria-label="Směrové ovládání">
+              <button class="touch-button touch-button--up" type="button" data-input="up" aria-label="Nahoru">
+                <span aria-hidden="true">▲</span>
+              </button>
+              <button class="touch-button touch-button--left" type="button" data-input="left" aria-label="Doleva">
+                <span aria-hidden="true">◀</span>
+              </button>
+              <button class="touch-button touch-button--down" type="button" data-input="down" aria-label="Dolů">
+                <span aria-hidden="true">▼</span>
+              </button>
+              <button class="touch-button touch-button--right" type="button" data-input="right" aria-label="Doprava">
+                <span aria-hidden="true">▶</span>
+              </button>
+            </div>
+
+            <div class="touch-actions" aria-label="Akční ovládání">
+              <button class="touch-button touch-button--interact" type="button" data-input="interact" aria-label="Interakce">
+                <span aria-hidden="true">E</span>
+              </button>
+              <button class="touch-button touch-button--pause" type="button" data-input="pause" aria-label="Pozastavit hru">
+                <span aria-hidden="true">Ⅱ</span>
+              </button>
+              <button class="touch-button touch-button--block" type="button" data-input="block" aria-label="Kryt">
+                <span aria-hidden="true">K</span>
+              </button>
+              <button class="touch-button touch-button--attack" type="button" data-input="attack" aria-label="Útok">
+                <span aria-hidden="true">J</span>
+              </button>
+            </div>
+          </nav>
+        </div>
+      </section>
+
+      <footer class="app-footer">
+        <p><span aria-hidden="true">◐</span> Nejlépe se sluchátky a v celé obrazovce.</p>
+        <p class="app-footer__status"><span aria-hidden="true"></span> Postup se ukládá automaticky</p>
+      </footer>
+    </main>
+
+    <noscript>
+      <div class="noscript-message">
+        Pro vstup do Citadely je potřeba povolit JavaScript. Herní logika běží pouze ve vašem prohlížeči.
+      </div>
+    </noscript>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

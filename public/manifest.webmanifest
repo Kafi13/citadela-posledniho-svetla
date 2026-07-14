@@ -1,0 +1,20 @@
+{
+  "name": "Citadela posledního světla",
+  "short_name": "Citadela",
+  "description": "Filmová plošinovka v tajemné měsíční citadele.",
+  "lang": "cs",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#09070f",
+  "theme_color": "#190f24",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

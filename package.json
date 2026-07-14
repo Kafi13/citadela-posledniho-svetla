@@ -1,0 +1,17 @@
+{
+  "name": "citadela-posledniho-svetla",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Filmová plošinovka Citadela posledního světla.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs . --port 5173",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs dist --port 4173",
+    "test": "node --test",
+    "check": "node scripts/validate.mjs && node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

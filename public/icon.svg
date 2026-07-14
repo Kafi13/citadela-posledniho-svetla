@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Citadela posledního světla</title>
+  <desc id="description">Zlatá lucerna nad siluetou citadely v noční obloze</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#25163b"/>
+      <stop offset="1" stop-color="#08060d"/>
+    </linearGradient>
+    <radialGradient id="light">
+      <stop offset="0" stop-color="#fff6b8" stop-opacity=".95"/>
+      <stop offset=".45" stop-color="#f7bf4e" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#f7bf4e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#sky)"/>
+  <circle cx="256" cy="190" r="150" fill="url(#light)"/>
+  <path fill="#e7ad45" d="M221 116h70l14 34-15 118h-68l-15-118 14-34Zm11 30-8 16 10 80h44l10-80-8-16h-48Zm5-55h38l10 18h-58l10-18Zm5 180h28v37h-28v-37Z"/>
+  <path fill="#120c1b" d="M64 397h43V282h54v40h36V234h54v56h29v-80h58v110h29v-53h54v130h27v51H64v-51Zm130 0h124v-44c0-34-28-62-62-62s-62 28-62 62v44Z"/>
+  <path fill="#6d3b55" d="M0 448h512v64H0z"/>
+</svg>
